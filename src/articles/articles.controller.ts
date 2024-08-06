@@ -8,10 +8,12 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBody,
   ApiOperation,
+  ApiQuery,
   ApiResponse,
   ApiTags,
   PartialType,
@@ -19,6 +21,7 @@ import {
 import { Article } from './articles.schema';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
+import { FilterArticleDto } from './dto/filter-article.dto';
 
 @ApiTags('articles')
 @Controller('articles')
@@ -27,12 +30,36 @@ export class ArticlesController {
 
   constructor(private articlesService: ArticlesService) {}
 
-  @ApiOperation({ description: 'Get all articles' })
+  @ApiOperation({ description: 'Filter articles' })
   @ApiResponse({ status: HttpStatus.OK, description: 'Returns all articles' })
+  @ApiQuery({
+    name: 'author',
+    required: false,
+    type: String,
+    description: 'Filter articles by author',
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
+    description: 'Limit the number of articles, defaults to 10',
+  })
+  @ApiQuery({
+    name: 'cursor',
+    required: false,
+    type: String,
+    description: 'Cursor to get the next page of articles',
+  })
+  @ApiQuery({
+    name: 'tags',
+    required: false,
+    type: String,
+    description: 'Filter articles by tags',
+  })
   @Get()
-  findAll() {
+  filter(@Query() filterArticleDto: FilterArticleDto) {
     this.logger.log(`Finding all articles`);
-    return this.articlesService.findAll();
+    return this.articlesService.filter(filterArticleDto);
   }
 
   @ApiOperation({ description: 'Create a new article' })

@@ -20,6 +20,8 @@ const mockArticleModel = Object.assign(MockArticleModel, {
   findByIdAndUpdate: jest.fn(),
   update: jest.fn(),
   deleteOne: jest.fn(),
+  sort: jest.fn(),
+  exec: jest.fn(),
 });
 
 describe('ArticlesService', () => {
@@ -43,10 +45,22 @@ describe('ArticlesService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should find all articles', async () => {
-    mockArticleModel.find.mockResolvedValueOnce(mockArticles);
-    const articles = await service.findAll();
-    expect(articles.length).toEqual(2);
+  describe('filter', () => {
+    it('should filter articles', async () => {
+      mockArticleModel.find.mockReturnThis();
+      mockArticleModel.sort.mockReturnThis();
+      mockArticleModel.exec.mockResolvedValueOnce(mockArticles);
+      const results = await service.filter({});
+      expect(results.articles.length).toEqual(2);
+    });
+
+    it('should limit results and send next cursor', async () => {
+      mockArticleModel.find.mockReturnThis();
+      mockArticleModel.sort.mockReturnThis();
+      mockArticleModel.exec.mockResolvedValueOnce(mockArticles);
+      const results = await service.filter({ limit: 1 });
+      expect(results.articles.length).toEqual(1);
+    });
   });
 
   it('should create an article', async () => {

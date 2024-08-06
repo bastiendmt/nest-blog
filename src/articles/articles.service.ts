@@ -2,6 +2,9 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Article } from './articles.schema';
+import { FilterArticleDto } from './dto/filter-article.dto';
+
+const DEFAULT_FILTER_LIMIT = 10;
 
 @Injectable()
 export class ArticlesService {
@@ -11,9 +14,53 @@ export class ArticlesService {
     @InjectModel(Article.name) private articleModel: Model<Article>,
   ) {}
 
-  async findAll() {
-    this.logger.log(`Finding all articles`);
-    return this.articleModel.find();
+  async filter(filters: FilterArticleDto) {
+    this.logger.log(`Filtering articles`);
+
+    const query: any = {};
+
+    if (filters.author) {
+      query.author = filters.author;
+    }
+
+    // TODO add support for multiple tags ?
+    if (filters.tags && filters.tags.length > 0) {
+      query.tags = { $in: filters.tags };
+    }
+
+    const limit = Number(filters.limit) || DEFAULT_FILTER_LIMIT;
+
+    const articles = await this.articleModel
+      .find(query)
+      .sort({ createdAt: -1 })
+      .exec();
+
+    this.logger.debug(`Total results ${articles.length}`);
+
+    /** Cursor if provided, 0 otherwise */
+    const startIndex = filters.cursor
+      ? articles.findIndex((a) => a.id === filters.cursor)
+      : 0;
+
+    /** Equal to startIndex + limit */
+    const endIndex =
+      startIndex + limit > articles.length
+        ? articles.length
+        : startIndex + limit;
+
+    this.logger.debug(
+      `Getting articles from index ${startIndex} to ${endIndex}`,
+    );
+
+    const nextCursor = articles[endIndex]?.id || null;
+    const hasNextPage = Boolean(nextCursor);
+    const slicedArticles = articles.slice(startIndex, endIndex);
+
+    return {
+      nextCursor: nextCursor,
+      hasNextPage,
+      articles: slicedArticles,
+    };
   }
 
   async create({

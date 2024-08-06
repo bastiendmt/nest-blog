@@ -4,11 +4,11 @@ import { ArticlesService } from './articles.service';
 import { Article } from './articles.schema';
 
 const mockArticlesService = {
-  findAll: jest.fn(),
   create: jest.fn(),
   findById: jest.fn(),
   update: jest.fn(),
   delete: jest.fn(),
+  filter: jest.fn(),
 };
 
 export const mockArticle1: Article = {
@@ -48,11 +48,15 @@ describe('ArticlesController', () => {
     expect(controller).toBeDefined();
   });
 
-  it('should return all articles', async () => {
-    mockArticlesService.findAll.mockResolvedValueOnce(mockArticles);
+  it('should filter articles', async () => {
+    mockArticlesService.filter.mockResolvedValueOnce({
+      articles: mockArticles,
+      hasNextPage: false,
+      nextCursor: null,
+    });
 
-    const articles = await controller.findAll();
-    expect(articles.length).toBe(2);
+    const results = await controller.filter({});
+    expect(results.articles.length).toBe(2);
   });
 
   it('should create an article', async () => {

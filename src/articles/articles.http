@@ -2,7 +2,7 @@
 
 ### Get all articles
 
-GET http://localhost:3000/articles
+GET http://localhost:3000/articles?limit=99
 
 ### Create a new article
 
@@ -14,6 +14,18 @@ Content-Type: application/json
   "content": "This is my first article",
   "author": "Michael",
   "tags": ["news", "economics"]
+}
+
+### Create another article with different tags
+
+POST http://localhost:3000/articles
+Content-Type: application/json
+
+{
+  "title": "The office",
+  "content": "A paper compagny",
+  "author": "Jim",
+  "tags": [ "sports"]
 }
 
 ### Get an article by id
@@ -32,3 +44,19 @@ Content-Type: application/json
 ### Delete an article by id
 
 DELETE http://localhost:3000/articles/{{articleId}}
+
+### Filter articles by tags
+
+GET http://localhost:3000/articles?tags=sports
+
+### Filter by author
+
+GET http://localhost:3000/articles?author=Michael
+
+### Filter articles by limit
+
+GET http://localhost:3000/articles?limit=3
+
+### Filter articles with cursor
+
+GET http://localhost:3000/articles?limit=3&cursor=66b21e7fd6a42a3004a9dac1
