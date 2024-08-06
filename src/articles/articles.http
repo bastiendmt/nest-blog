@@ -1,10 +1,11 @@
 @articleId = 66b219880529fdb5a1cfbb2e
+@authorId = 66b23317c27cad262421db52
 
 ### Get all articles
 
 GET http://localhost:3000/articles?limit=99
 
-### Create a new article
+### Create a new article (needs an author id)
 
 POST http://localhost:3000/articles
 Content-Type: application/json
@@ -12,7 +13,7 @@ Content-Type: application/json
 {
   "title": "Some bold headline",
   "content": "This is my first article",
-  "author": "Michael",
+  "author": "{{authorId}}",
   "tags": ["news", "economics"]
 }
 

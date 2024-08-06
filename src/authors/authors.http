@@ -3,9 +3,9 @@ POST http://localhost:3000/authors
 Content-Type: application/json
 
 {
-  "name": "John Doe",
-  "email": "john@example.com"
+  "name": "Micheal Scott",
+  "email": "michael@example.com"
 }
 
 ### Finds an author by email
-GET http://localhost:3000/authors/find/john@example.com
+GET http://localhost:3000/authors/find/michael@example.com

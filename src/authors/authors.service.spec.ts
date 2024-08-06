@@ -10,7 +10,7 @@ const mockAuthorModel = {
   findOne: jest.fn(),
 };
 
-const mockAuthor1: Author = {
+export const mockAuthor1: Author = {
   name: 'John Doe',
   email: 'john@example.com',
 };

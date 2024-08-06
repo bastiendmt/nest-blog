@@ -4,6 +4,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { mockArticle1, mockArticles } from './articles.controller.spec';
 import { Article } from './articles.schema';
 import { ArticlesService } from './articles.service';
+import { AuthorsService } from '../authors/authors.service';
+import { CreateArticleDto } from './dto/create-article.dto';
+import { mockAuthor1 } from '../authors/authors.service.spec';
 
 class MockArticleModel {
   constructor(dto: any) {
@@ -24,6 +27,10 @@ const mockArticleModel = Object.assign(MockArticleModel, {
   exec: jest.fn(),
 });
 
+const mockAuthorService = {
+  findById: jest.fn(),
+};
+
 describe('ArticlesService', () => {
   let service: ArticlesService;
 
@@ -34,6 +41,10 @@ describe('ArticlesService', () => {
         {
           provide: getModelToken(Article.name),
           useValue: mockArticleModel,
+        },
+        {
+          provide: AuthorsService,
+          useValue: mockAuthorService,
         },
       ],
     }).compile();
@@ -63,15 +74,30 @@ describe('ArticlesService', () => {
     });
   });
 
-  it('should create an article', async () => {
-    mockArticleModel.create.mockResolvedValueOnce(mockArticle1);
-    const article = await service.create({
-      title: mockArticle1.title,
-      content: mockArticle1.content,
-      author: mockArticle1.author,
-      tags: mockArticle1.tags,
+  describe('create', () => {
+    const createArticleDto: CreateArticleDto = {
+      title: 'Some title',
+      content: 'Some content',
+      author: '66b23317c27cad262421db00',
+      tags: ['news'],
+    };
+    it('should fail if author not found', async () => {
+      mockAuthorService.findById.mockResolvedValueOnce(null);
+      try {
+        await service.create(createArticleDto);
+        expect(true).toBe(false);
+      } catch (error) {
+        expect(error.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
+        expect(error.message).toBe('Author not found');
+      }
     });
-    expect(article).toBeDefined();
+
+    it('should create an article', async () => {
+      mockAuthorService.findById.mockResolvedValueOnce(mockAuthor1);
+      mockArticleModel.create.mockResolvedValueOnce(mockArticle1);
+      const article = await service.create(createArticleDto);
+      expect(article).toBeDefined();
+    });
   });
 
   it('should find a single article', async () => {

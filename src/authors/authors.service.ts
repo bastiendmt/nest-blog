@@ -28,4 +28,9 @@ export class AuthorsService {
     this.logger.log(`Finding author by email ${email}`);
     return this.authorModel.findOne({ email });
   }
+
+  async findById(id: string) {
+    this.logger.log(`Finding author by id ${id}`);
+    return this.authorModel.findById(id);
+  }
 }

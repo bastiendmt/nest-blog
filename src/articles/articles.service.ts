@@ -1,8 +1,14 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Article } from './articles.schema';
 import { FilterArticleDto } from './dto/filter-article.dto';
+import { AuthorsService } from '../authors/authors.service';
 
 const DEFAULT_FILTER_LIMIT = 10;
 
@@ -12,6 +18,7 @@ export class ArticlesService {
 
   constructor(
     @InjectModel(Article.name) private articleModel: Model<Article>,
+    private authorService: AuthorsService,
   ) {}
 
   async filter(filters: FilterArticleDto) {
@@ -75,6 +82,13 @@ export class ArticlesService {
     tags?: string[];
   }): Promise<Article> {
     this.logger.log(`Creating article`);
+
+    const authorFound = await this.authorService.findById(author);
+
+    if (!authorFound) {
+      throw new UnprocessableEntityException(`Author not found`);
+    }
+
     return this.articleModel.create({ title, content, author, tags });
   }
 
