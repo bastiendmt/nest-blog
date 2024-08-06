@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ArticlesModule } from './articles/articles.module';
+import { AuthorsModule } from './authors/authors.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { ArticlesModule } from './articles/articles.module';
       `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.fhl2fvi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`,
     ),
     ArticlesModule,
+    AuthorsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
