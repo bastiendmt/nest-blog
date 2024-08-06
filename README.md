@@ -22,12 +22,6 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## How to use
-
-### Call APIs
-
-For calling APIs, you can use the VSCode extension [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client). You can then open any `file.http` and click on the `Send Request` button.
-
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
@@ -50,6 +44,16 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+
+## How to use
+
+### Call APIs
+
+For calling APIs, you can use the VSCode extension [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client). You can then open any `file.http` and click on the `Send Request` button.
+
+### Documentation
+
+Once the server is running, you can access the Swagger documentation at `http://localhost:3000/docs`.
 
 ## Test
 
