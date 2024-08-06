@@ -23,6 +23,7 @@ export class ArticlesController {
   @ApiResponse({ status: HttpStatus.OK, description: 'Returns all articles' })
   @Get()
   findAll() {
+    this.logger.log(`Finding all articles`);
     return this.articlesService.findAll();
   }
 
@@ -34,6 +35,7 @@ export class ArticlesController {
   })
   @Post()
   create(@Body() createArticleDto: CreateArticleDto) {
+    this.logger.log(`Creating article`);
     return this.articlesService.create({
       content: createArticleDto.content,
       title: createArticleDto.title,

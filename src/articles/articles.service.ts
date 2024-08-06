@@ -12,6 +12,7 @@ export class ArticlesService {
   ) {}
 
   async findAll() {
+    this.logger.log(`Finding all articles`);
     return this.articleModel.find();
   }
 
@@ -26,11 +27,13 @@ export class ArticlesService {
     author: string;
     tags?: string[];
   }): Promise<Article> {
+    this.logger.log(`Creating article`);
     const article = new this.articleModel({ title, content, author, tags });
     return article.save();
   }
 
   async findById(id: string) {
+    this.logger.log(`Finding article with id ${id}`);
     return this.articleModel.findById(id);
   }
 }
