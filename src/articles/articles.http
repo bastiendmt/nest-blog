@@ -17,3 +17,16 @@ Content-Type: application/json
 ### Get an article by id
 
 GET http://localhost:3000/articles/66b1db39b2e898dde3c0bb09
+
+### Update an article by id
+
+PUT http://localhost:3000/articles/66b1db39b2e898dde3c0bb09
+Content-Type: application/json
+
+{
+  "title": "A new title"
+}
+
+### Delete an article by id
+
+DELETE http://localhost:3000/articles/66b1eafa324c19cb818fb519
