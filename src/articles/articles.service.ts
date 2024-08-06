@@ -28,8 +28,7 @@ export class ArticlesService {
     tags?: string[];
   }): Promise<Article> {
     this.logger.log(`Creating article`);
-    const article = new this.articleModel({ title, content, author, tags });
-    return article.save();
+    return this.articleModel.create({ title, content, author, tags });
   }
 
   async findById(id: string) {
