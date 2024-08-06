@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ArticlesController } from './articles.controller';
 import { ArticlesService } from './articles.service';
+import { Article } from './articles.schema';
 
 const mockArticlesService = {
   findAll: jest.fn(),
@@ -10,21 +11,21 @@ const mockArticlesService = {
   delete: jest.fn(),
 };
 
-export const mockArticle1 = {
+export const mockArticle1: Article = {
   title: 'Article 1',
   content: 'Content 1',
   author: 'Author 1',
   tags: ['tag1', 'tag2'],
 };
 
-const mockArticle2 = {
+const mockArticle2: Article = {
   title: 'Article 2',
   content: 'Content 2',
   author: 'Author 2',
   tags: ['tag3', 'tag4'],
 };
 
-export const mockArticles = [mockArticle1, mockArticle2];
+export const mockArticles: Article[] = [mockArticle1, mockArticle2];
 
 describe('ArticlesController', () => {
   let controller: ArticlesController;
@@ -75,16 +76,9 @@ describe('ArticlesController', () => {
   });
 
   it('should update an article', async () => {
-    const mockArticle = {
-      title: 'Article 1',
-      content: 'Content 1',
-      author: 'Author 1',
-      tags: ['tag1', 'tag2'],
-    };
+    mockArticlesService.update.mockResolvedValueOnce(mockArticle1);
 
-    mockArticlesService.update.mockResolvedValueOnce(mockArticle);
-
-    await controller.update('some-id', mockArticle);
+    await controller.update('some-id', mockArticle1);
     expect(mockArticlesService.update).toHaveBeenCalled();
   });
 
