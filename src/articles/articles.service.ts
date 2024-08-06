@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Article } from './articles.schema';
 import { Model } from 'mongoose';
+import { Article } from './articles.schema';
 
 @Injectable()
 export class ArticlesService {
@@ -28,5 +28,9 @@ export class ArticlesService {
   }): Promise<Article> {
     const article = new this.articleModel({ title, content, author, tags });
     return article.save();
+  }
+
+  async findById(id: string) {
+    return this.articleModel.findById(id);
   }
 }
