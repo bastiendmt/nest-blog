@@ -51,6 +51,8 @@ $ npm run start:prod
 
 For calling APIs, you can use the VSCode extension [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client). You can then open any `file.http` and click on the `Send Request` button.
 
+📔 to avoid id duplication, use the syntax `@variable = value` to define a variable that can be used in requests.
+
 ### Documentation
 
 Once the server is running, you can access the Swagger documentation at `http://localhost:3000/docs`.

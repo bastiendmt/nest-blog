@@ -1,3 +1,5 @@
+@articleId = 66b219880529fdb5a1cfbb2e
+
 ### Get all articles
 
 GET http://localhost:3000/articles
@@ -16,11 +18,11 @@ Content-Type: application/json
 
 ### Get an article by id
 
-GET http://localhost:3000/articles/66b1db39b2e898dde3c0bb09
+GET http://localhost:3000/articles/{{articleId}}
 
 ### Update an article by id
 
-PUT http://localhost:3000/articles/66b1db39b2e898dde3c0bb09
+PUT http://localhost:3000/articles/{{articleId}}
 Content-Type: application/json
 
 {
@@ -29,4 +31,4 @@ Content-Type: application/json
 
 ### Delete an article by id
 
-DELETE http://localhost:3000/articles/66b1eafa324c19cb818fb519
+DELETE http://localhost:3000/articles/{{articleId}}
