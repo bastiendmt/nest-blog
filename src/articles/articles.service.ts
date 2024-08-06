@@ -30,9 +30,11 @@ export class ArticlesService {
       query.author = filters.author;
     }
 
-    // TODO add support for multiple tags ?
-    if (filters.tags && filters.tags.length > 0) {
-      query.tags = { $in: filters.tags };
+    if (filters.tags) {
+      const tagsArray = filters.tags.split(',');
+      if (tagsArray.length > 0) {
+        query.tags = { $all: tagsArray };
+      }
     }
 
     const limit = Number(filters.limit) || DEFAULT_FILTER_LIMIT;

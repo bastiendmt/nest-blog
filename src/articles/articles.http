@@ -14,7 +14,7 @@ Content-Type: application/json
   "title": "Some bold headline",
   "content": "This is my first article",
   "author": "{{authorId}}",
-  "tags": ["news", "economics"]
+  "tags": ["news", "sport"]
 }
 
 ### Create another article with different tags
@@ -49,6 +49,10 @@ DELETE http://localhost:3000/articles/{{articleId}}
 ### Filter articles by tags
 
 GET http://localhost:3000/articles?tags=sports
+
+### Filter articles by tags (multiple)
+
+GET http://localhost:3000/articles?tags=news,sport
 
 ### Filter by author
 

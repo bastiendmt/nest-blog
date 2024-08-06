@@ -54,7 +54,7 @@ export class ArticlesController {
     name: 'tags',
     required: false,
     type: String,
-    description: 'Filter articles by tags',
+    description: 'Filter articles by tags, comma separated',
   })
   @Get()
   filter(@Query() filterArticleDto: FilterArticleDto) {

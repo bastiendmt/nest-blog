@@ -6,7 +6,7 @@ export class FilterArticleDto {
   author?: string;
 
   @IsOptional()
-  tags?: string[];
+  tags?: string;
 
   @IsOptional()
   @IsNumber()
