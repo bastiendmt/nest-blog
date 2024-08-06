@@ -1,0 +1,15 @@
+### Get all articles
+
+GET http://localhost:3000/articles
+
+### Create a new article
+
+POST http://localhost:3000/articles
+Content-Type: application/json
+
+{
+  "title": "Some bold headline",
+  "content": "This is my first article",
+  "author": "Michael",
+  "tags": ["news", "economics"]
+}
