@@ -7,3 +7,7 @@ Not sure wether to use the author id or the author name when creating an article
 ## RabbitMQ
 
 Never worked with RabbitMQ before but pretty straight forward to implement.
+
+## Types
+
+I mostly used implicit types for this project. As the project gets larger, explicit types might be better.

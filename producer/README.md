@@ -45,28 +45,6 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## How to use
-
-### Call APIs
-
-For calling APIs, you can use the VSCode extension [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client). You can then open any `file.http` and click on the `Send Request` button.
-
-📔 to avoid id duplication, use the syntax `@variable = value` to define a variable that can be used in requests.
-
-### Documentation
-
-Once the server is running, you can access the Swagger documentation at `http://localhost:3000/docs`.
-
-### RabbitMQ
-
-Run a RabbitMQ server on local :
-
-```sh
-docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password rabbitmq:3.13-management
-```
-
-Console will be available at `http://localhost:15672/` with credentials `user/password`.
-
 ## Test
 
 ```bash
