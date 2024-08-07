@@ -29,6 +29,17 @@ Content-Type: application/json
   "tags": [ "sports"]
 }
 
+### Fails to create an article with missing title
+
+POST http://localhost:3000/articles
+Content-Type: application/json
+
+{
+  "content": "A paper company",
+  "author": "{{authorId}}",
+  "tags": [ "sports"]
+}
+
 ### Get an article by id
 
 GET http://localhost:3000/articles/{{articleId}}
