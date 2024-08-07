@@ -11,7 +11,7 @@ POST http://localhost:3000/articles
 Content-Type: application/json
 
 {
-  "title": "Some bold headline",
+  "title": "Jim posting",
   "content": "This is my first article",
   "author": "{{authorId}}",
   "tags": ["news", "sport"]
@@ -24,8 +24,8 @@ Content-Type: application/json
 
 {
   "title": "The office",
-  "content": "A paper compagny",
-  "author": "Jim",
+  "content": "A paper company",
+  "author": "{{authorId}}",
   "tags": [ "sports"]
 }
 
@@ -65,3 +65,7 @@ GET http://localhost:3000/articles?limit=3
 ### Filter articles with cursor
 
 GET http://localhost:3000/articles?limit=3&cursor=66b21e7fd6a42a3004a9dac1
+
+### Get articles with author's details
+
+GET http://localhost:3000/articles/with-authors

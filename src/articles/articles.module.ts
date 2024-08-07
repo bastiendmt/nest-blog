@@ -3,7 +3,7 @@ import { ArticlesController } from './articles.controller';
 import { ArticlesService } from './articles.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Article, ArticleSchema } from './articles.schema';
-import { AuthorsModule } from 'src/authors/authors.module';
+import { AuthorsModule } from '../authors/authors.module';
 
 @Module({
   imports: [

@@ -25,6 +25,7 @@ const mockArticleModel = Object.assign(MockArticleModel, {
   deleteOne: jest.fn(),
   sort: jest.fn(),
   exec: jest.fn(),
+  populate: jest.fn(),
 });
 
 const mockAuthorService = {
@@ -151,5 +152,13 @@ describe('ArticlesService', () => {
       expect(mockArticleModel.findById).toHaveBeenCalled();
       expect(mockDeleteOne).toHaveBeenCalled();
     });
+  });
+
+  it('should get articles with authors', async () => {
+    mockArticleModel.find.mockReturnThis();
+    mockArticleModel.populate.mockReturnThis();
+    mockArticleModel.exec.mockResolvedValueOnce(mockArticles);
+    const articles = await service.getArticlesWithAuthors();
+    expect(articles.length).toBe(2);
   });
 });

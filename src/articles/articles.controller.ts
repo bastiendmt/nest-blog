@@ -30,6 +30,13 @@ export class ArticlesController {
 
   constructor(private articlesService: ArticlesService) {}
 
+  @ApiOperation({ description: "Get articles with author's details" })
+  @Get('with-authors')
+  getArticlesWithAuthors() {
+    this.logger.log(`Getting articles with authors`);
+    return this.articlesService.getArticlesWithAuthors();
+  }
+
   @ApiOperation({ description: 'Filter articles' })
   @ApiResponse({ status: HttpStatus.OK, description: 'Returns all articles' })
   @ApiQuery({

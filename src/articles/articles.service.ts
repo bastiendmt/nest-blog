@@ -9,6 +9,7 @@ import { Model } from 'mongoose';
 import { Article } from './articles.schema';
 import { FilterArticleDto } from './dto/filter-article.dto';
 import { AuthorsService } from '../authors/authors.service';
+import { CreateArticleDto } from './dto/create-article.dto';
 
 const DEFAULT_FILTER_LIMIT = 10;
 
@@ -91,7 +92,12 @@ export class ArticlesService {
       throw new UnprocessableEntityException(`Author not found`);
     }
 
-    return this.articleModel.create({ title, content, author, tags });
+    return this.articleModel.create({
+      title,
+      content,
+      author: authorFound,
+      tags,
+    });
   }
 
   async findById(id: string) {
@@ -99,7 +105,7 @@ export class ArticlesService {
     return this.articleModel.findById(id);
   }
 
-  async update(id: string, updateArticleDto: Partial<Article>) {
+  async update(id: string, updateArticleDto: Partial<CreateArticleDto>) {
     this.logger.log(`Updating article with id ${id}`);
 
     const updatedArticle = await this.articleModel.findByIdAndUpdate(
@@ -124,5 +130,10 @@ export class ArticlesService {
     }
 
     return article.deleteOne();
+  }
+
+  async getArticlesWithAuthors() {
+    this.logger.log(`Getting articles with authors`);
+    return this.articleModel.find().populate('author').exec();
   }
 }

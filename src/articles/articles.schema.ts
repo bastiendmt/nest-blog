@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
+import { Author } from '../authors/authors.schema';
 
 export type ArticleDocument = HydratedDocument<Article>;
 
@@ -11,8 +12,8 @@ export class Article {
   @Prop({ required: true })
   content: string;
 
-  @Prop({ required: true })
-  author: string;
+  @Prop({ type: Types.ObjectId, ref: 'Author' })
+  author: Author;
 
   @Prop([String])
   tags: string[];
