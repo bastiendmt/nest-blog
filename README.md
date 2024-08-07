@@ -8,6 +8,7 @@ This repository is a technical test for a blog microservice.
 
 - node >= 18
 - docker
+- MongoDB
 
 ## Project Architecture
 
