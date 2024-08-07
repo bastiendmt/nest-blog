@@ -22,6 +22,7 @@ import { Article } from './articles.schema';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { FilterArticleDto } from './dto/filter-article.dto';
+import { FilterResponse } from './articles.types';
 
 @ApiTags('articles')
 @Controller('articles')
@@ -38,7 +39,6 @@ export class ArticlesController {
   }
 
   @ApiOperation({ description: 'Filter articles' })
-  @ApiResponse({ status: HttpStatus.OK, description: 'Returns all articles' })
   @ApiQuery({
     name: 'author',
     required: false,
@@ -62,6 +62,11 @@ export class ArticlesController {
     required: false,
     type: String,
     description: 'Filter articles by tags, comma separated',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Returns filtered articles',
+    type: FilterResponse,
   })
   @Get()
   filter(@Query() filterArticleDto: FilterArticleDto) {
