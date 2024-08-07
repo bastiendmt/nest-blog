@@ -109,7 +109,7 @@ export class ArticlesService {
     this.rabbitClient
       .send('ARTICLE_CREATED', article)
       .pipe(
-        catchError((error) => {
+        catchError((error: any) => {
           this.logger.error(
             `Error sending message to RabbitMQ: ${error.message}`,
           );
