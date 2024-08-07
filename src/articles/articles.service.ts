@@ -1,15 +1,18 @@
 import {
+  Inject,
   Injectable,
   Logger,
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Article } from './articles.schema';
-import { FilterArticleDto } from './dto/filter-article.dto';
+import { catchError, throwError } from 'rxjs';
 import { AuthorsService } from '../authors/authors.service';
+import { Article } from './articles.schema';
 import { CreateArticleDto } from './dto/create-article.dto';
+import { FilterArticleDto } from './dto/filter-article.dto';
 
 const DEFAULT_FILTER_LIMIT = 10;
 
@@ -20,6 +23,7 @@ export class ArticlesService {
   constructor(
     @InjectModel(Article.name) private articleModel: Model<Article>,
     private authorService: AuthorsService,
+    @Inject('BLOG_SERVICE') private rabbitClient: ClientProxy,
   ) {}
 
   async filter(filters: FilterArticleDto) {
@@ -92,12 +96,29 @@ export class ArticlesService {
       throw new UnprocessableEntityException(`Author not found`);
     }
 
-    return this.articleModel.create({
+    const article = await this.articleModel.create({
       title,
       content,
       author: authorFound,
       tags,
     });
+
+    this.logger.log(`Article created with id ${article.id}`);
+
+    this.logger.log(`Sending article to articles_queue`);
+    this.rabbitClient
+      .send('ARTICLE_CREATED', article)
+      .pipe(
+        catchError((error) => {
+          this.logger.error(
+            `Error sending message to RabbitMQ: ${error.message}`,
+          );
+          return throwError(() => new Error(error));
+        }),
+      )
+      .subscribe();
+
+    return article;
   }
 
   async findById(id: string) {
