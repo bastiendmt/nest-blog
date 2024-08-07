@@ -14,9 +14,9 @@ This repository is a technical test for a blog microservice.
 
 - **Producer** `/producer`
 
-Producer is the main API which handles the creation of articles and authors.
+Producer is the main API which handles the creation of **articles** and **authors**.
 
-When an article is created, it is sent to the queue `articles_queue` to be processed by the consumer.
+When an article is created, a message is sent to the queue `articles_queue` to be processed by the consumer.
 
 The producer has a Swagger documentation available at `http://localhost:3000/docs` when the server is running.
 
@@ -24,13 +24,25 @@ Unit tests are available.
 
 - **Consumer** `/consumer`
 
-Consumer is the microservice which handles the queue and is supposed to send emails. Mail implementation was not required for this test.
+Consumer is the microservice which handles the queue and is supposed to send emails.
+
+Mail implementation was not required for this test.
 
 - **RabbitMQ**
 
 Message broker used to send and receive messages between microservices.
 
 ## Installation
+
+### MongoDB
+
+Follow `.env.template` to create a `.env` file and fill it with your MongoDB credentials.
+
+### Run RabbitMQ
+
+```sh
+docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password rabbitmq:3.13-management
+```
 
 ### Run Producer (main API)
 
@@ -46,14 +58,6 @@ npm run start
 cd consumer
 npm i
 npm run start
-```
-
-### Run RabbitMQ
-
-Run a RabbitMQ server on local :
-
-```sh
-docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password rabbitmq:3.13-management
 ```
 
 Console will be available at `http://localhost:15672/` with credentials `user/password`.
