@@ -26,6 +26,7 @@ const mockArticleModel = Object.assign(MockArticleModel, {
   sort: jest.fn(),
   exec: jest.fn(),
   populate: jest.fn(),
+  aggregate: jest.fn(),
 });
 
 const mockAuthorService = {
@@ -155,8 +156,7 @@ describe('ArticlesService', () => {
   });
 
   it('should get articles with authors', async () => {
-    mockArticleModel.find.mockReturnThis();
-    mockArticleModel.populate.mockReturnThis();
+    mockArticleModel.aggregate.mockReturnThis();
     mockArticleModel.exec.mockResolvedValueOnce(mockArticles);
     const articles = await service.getArticlesWithAuthors();
     expect(articles.length).toBe(2);

@@ -134,6 +134,19 @@ export class ArticlesService {
 
   async getArticlesWithAuthors() {
     this.logger.log(`Getting articles with authors`);
-    return this.articleModel.find().populate('author').exec();
+    // return this.articleModel.find().populate('author').exec();
+    const articles = await this.articleModel
+      .aggregate([
+        {
+          $lookup: {
+            from: 'authors',
+            localField: 'author',
+            foreignField: '_id',
+            as: 'author',
+          },
+        },
+      ])
+      .exec();
+    return articles;
   }
 }
