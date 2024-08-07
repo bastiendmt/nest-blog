@@ -63,3 +63,29 @@ Console will be available at `http://localhost:15672/` with credentials `user/pa
 For calling APIs, you can use the VSCode extension [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client). You can then open any `file.http` and click on the `Send Request` button.
 
 📔 to avoid id duplication, use the syntax `@variable = value` to define a variable that can be used in requests.
+
+## My comments about the test
+
+My approach to this test was to :
+
+- connect MongoDB
+- create CRUD operations for articles
+- create basics operations for authors
+- link articles to authors
+- implement unit tests
+- create a filter method for articles
+- create a `/articles/with-authors` endpoint to get articles with their authors
+- create the rabbitmq queues
+- create a rabbitmq mock consumer
+
+### Articles's Authors
+
+Not sure wether to use the author id or the author name when creating an article. I chose the id because I'm used to this schema.
+
+### RabbitMQ
+
+Never worked with RabbitMQ before but pretty straight forward to implement.
+
+### Types
+
+I mostly used implicit types for this project. As the project gets larger, explicit types might be better.
